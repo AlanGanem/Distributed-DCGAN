@@ -144,6 +144,7 @@ def main():
     set_random_seeds(argv.seed, argv.cuda)
     print(f"Using GPU: {argv.cuda}")
 
+    tic = time.time()
     # Initializes the distributed backend which will take care of sychronizing nodes
     torch.distributed.init_process_group(backend="gloo")
     rank = torch.distributed.get_rank()
@@ -242,8 +243,10 @@ def main():
                 torch.distributed.barrier()
 
         epoch_end_time = time.time()-epoch_start_time
+        toc = time.time()
         print(f"[rank: {rank}] Epoch {epoch} took: {epoch_end_time:.4f} seconds")
-
+    
+    print(f'total time elapsed: {toc-tic} seconds.')
     torch.distributed.destroy_process_group()
 
 if __name__ == "__main__":
