@@ -7,3 +7,5 @@ in both master and worker machines. then to run the experiment, run:
 on master machine and
 `python3 experiment_worker.py`
 on worker machine
+
+in both cases, the master machine private IP will be requested in order to proceed.
