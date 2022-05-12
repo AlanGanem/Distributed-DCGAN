@@ -2,6 +2,7 @@ import subprocess
 
 if __name__ == "__main__":
     COMMAND = [
+        "pip3 install -r exp_requirements.txt",
         "sudo apt update ;",
         "sudo apt install -y docker.io ; ",
         "cd ../.. ; mkdir cifar10 && cd cifar10 ; ",
