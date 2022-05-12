@@ -32,10 +32,10 @@ def run_experiment():
     n_repeats = 3
     result_dict = {i:[] for i in nprocs}
     #setup
-
-    for _ in range(n_repeats):
-        proc = subprocess.run(COMMAND.replace('##NPROCS##', str(i)), capture_output=False, shell=True)
-        
+    for i in tqdm(nprocs[::-1]):
+        for _ in range(n_repeats):
+            proc = subprocess.run(COMMAND.replace('##NPROCS##', str(i)), capture_output=False, shell=True)            
+   
     return
 	
 if __name__ == '__main__':
