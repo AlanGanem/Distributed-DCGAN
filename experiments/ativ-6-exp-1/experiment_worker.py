@@ -32,16 +32,10 @@ def run_experiment():
     n_repeats = 3
     result_dict = {i:[] for i in nprocs}
     #setup
-    for i in tqdm(nprocs[::-1]):
-        for _ in range(n_repeats):
-            proc = subprocess.run(COMMAND.replace('##NPROCS##', str(i)), capture_output=True, shell=True)
-            stdout = proc.stdout.decode('utf-8')
-            time = re.findall(r"total time elapsed: (.*?) seconds.", stdout)
-            result_dict[i]+=time
-    
-    with open('exp_results.json', 'w') as f:
-        json.dump(result_dict, f)    
-    
+
+    for _ in range(n_repeats):
+        proc = subprocess.run(COMMAND.replace('##NPROCS##', str(i)), capture_output=False, shell=True)
+        
     return
 	
 if __name__ == '__main__':
