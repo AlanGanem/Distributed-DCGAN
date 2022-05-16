@@ -26,8 +26,8 @@ def build_experimnt():
     
 def run_experiment():
     
-    #ip = input('Type the Private IP address of the Master node:')
-    ip = "172.17.0.1"
+    ip = input('Type the Private IP address of the Master node:')
+    #ip = "172.17.0.1"
     COMMAND = rf'sudo docker run -p 1234:1234 --env OMP_NUM_THREADS=1 --rm --network=host -v=$(pwd):/root dist_dcgan:latest python -m torch.distributed.launch --nproc_per_node=##NPROCS## --nnodes=2 --node_rank=0 --master_addr="{ip}" --master_port=1234 dist_dcgan.py --dataset cifar10 --dataroot ./cifar10 --num_epochs=1 --batch_size=16'
     
     nprocs = [1,2,4,8]
