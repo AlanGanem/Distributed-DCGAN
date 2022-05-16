@@ -33,7 +33,8 @@ def run_experiment():
     nprocs = [1,2,4,8]
     n_repeats = 3
     result_dict = {i:[] for i in nprocs}
-    proc = subprocess.run(COMMAND.replace('##NPROCS##', str(8)), capture_output=False, shell=True)            
+    #proc = subprocess.run(COMMAND.replace('##NPROCS##', str(8)), capture_output=False, shell=True)      
+    run_command(COMMAND.replace('##NPROCS##', str(4)))      
     #setup
     #for i in tqdm(nprocs[::-1]):
     #    for _ in range(n_repeats):
