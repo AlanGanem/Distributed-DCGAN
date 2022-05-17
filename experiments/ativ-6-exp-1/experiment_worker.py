@@ -29,12 +29,7 @@ def run_experiment():
     ip = input('Type the Private IP address of the Master node:')
     COMMAND = rf'cd ../..; sudo docker run --env OMP_NUM_THREADS=1 --rm --network=host -v=$(pwd):/root dist_dcgan:latest python -m torch.distributed.launch --nproc_per_node=##NPROCS## --nnodes=2 --node_rank=1 --master_addr="{ip}" --master_port=1234 dist_dcgan.py --dataset cifar10 --dataroot ./cifar10 --num_epochs=1 --batch_size=16'
     
-    proc = subprocess.run(COMMAND.replace('##NPROCS##', '1'), capture_output=False, shell=True)            
-    #setup
-    #for i in tqdm(nprocs[::-1]):
-    #    for _ in range(n_repeats):
-    #        proc = subprocess.run(COMMAND.replace('##NPROCS##', str(i)), capture_output=False, shell=True)            
-   
+    proc = subprocess.run(COMMAND.replace('##NPROCS##', '1'), capture_output=False, shell=True)               
     return
 	
 if __name__ == '__main__':
