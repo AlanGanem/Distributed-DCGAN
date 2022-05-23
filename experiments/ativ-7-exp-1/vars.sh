@@ -1,3 +1,8 @@
+
+
+
+
+
 # Script contendo as váriaveis de ambiente necessárias para execução do Playbook
 # Nota: As atualizações neste script não devem ser colocadas no seu git!
 # Nota: Altere apenas os campos exigidos.
