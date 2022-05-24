@@ -11,6 +11,7 @@
     debug:
       msg: "Teste SSH OK!"
 
+<<<<<<< HEAD
   - name: "Task 2: Instalar python e docker"
     shell: apt update; apt install python3-pip docker.io -y
     become: yes
@@ -59,3 +60,4 @@
   - name: "Task 9: Final"
     debug:
       msg: "Playbook executado com sucesso!"
+
