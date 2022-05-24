@@ -1,4 +1,4 @@
-# Atividade 8: Semana 23/05
+# Atividade 8: Semana 24/05
 
 ## Objetivo
 
@@ -94,9 +94,11 @@ Ao finalizar os testes e submissão, você deve terminar a máquina virtual que 
 
 ### Observações do Ansible durante a execução
 
-Vale ressaltar que uma *task* Ansible é executada em todos os nós simulataneamente. Entretando, na execução de um tarefa em um *host*, as variáveis e valores definidos para aquele *host* são passados a ele.
+Vale ressaltar que uma *task* Ansible é executada em todos os nós simulataneamente. Entretando, na execução de um tarefa em um *host*, as variáveis e valores definidos para aquele *host* no arquivo de inventário são passados a ele.
 
-Além disso, variaveis podem ser accessadas utilizando [chaves duplas (`{{ variável }}`), a sintaxe Jinja2](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#using-variables). As váriaveis podem definir valores numéricos, literais, listas e dicionários. Além disso, as váriaveis podem ser [manipuladas utilizando filtros](https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html). Por exemplo, supondo que a váriavel `x` corresponda a uma lista de números inteiros, podemos obter o tamanho desta lista (quantidade de elementos) utilizando o filtro `length`, como no exemplo do *playbook* abaixo.
+Além disso, variáveis podem ser accessadas utilizando [chaves duplas (`{{ variável }}`), a sintaxe Jinja2](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#using-variables). 
+As variáveis podem definir valores numéricos, literais, listas e dicionários. 
+Além disso, as váriaveis podem ser [manipuladas utilizando filtros](https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html). Por exemplo, supondo que a váriavel `x` corresponda a uma lista de números inteiros, podemos obter o tamanho desta lista (quantidade de elementos) utilizando o filtro `length`, como no exemplo do *playbook* abaixo.
 
 ```
 - name: "Exemplo de Play que imprime o tamanho da lista, definida pela váriavel x, na tela"
@@ -115,23 +117,17 @@ Além disso, variaveis podem ser accessadas utilizando [chaves duplas (`{{ vari�
 
 ### Condução de Experimentos
 
-Para esta atividade, você deve executar o seu *playbook* e coletar os resultados da execução da aplicação nos seguintes abaixo, onde o tipo das máquinas e suas respectivas configurações devem ser instânciado conforme descrito préviamente:
-- Aglomerado com 1 máquina do tipo `t2.small` (aglomerado 1)
-- Aglomerado com 2 máquinas do tipo `t2.small` (aglomerado 2)
-- Aglomerado com 4 máquinas do tipo `t2.small` (aglomerado 3)
-- Aglomerado com 1 máquina do tipo `t2.medium` (aglomerado 4)
-- Aglomerado com 2 máquinas do tipo `t2.medium` (aglomerado 5)
-- Aglomerado com 4 máquinas do tipo `t2.medium` (aglomerado 6)
+Para esta atividade, você deve executar o seu *playbook* e coletar os resultados da execução da aplicação nos seguintes abaixo, onde o tipo das máquinas e suas respectivas configurações devem ser implementadas conforme descrito préviamente:
+- Aglomerado com 1 máquina do tipo `t2.medium` (cluster-1)
+- Aglomerado com 2 máquinas do tipo `t2.medium` (cluster-2)
+- Aglomerado com 4 máquinas do tipo `t2.medium` (cluster-4)
 
 O tempo médio total de execução da aplicação (média dos tempos totais da execução da aplicação em cada uma das máquinas) para cada aglomerado descrito acima, deve ser colocado em um arquivo de texto chamado `tempos.txt`, com o seguinte formato:
 
 ```
-aglomerado 1: XXXX segundos
-aglomerado 2: XXXX segundos
-aglomerado 3: XXXX segundos
-aglomerado 4: XXXX segundos
-aglomerado 5: XXXX segundos
-aglomerado 6: XXXX segundos
+cluster-1: XXXX segundos
+cluster-2: XXXX segundos
+cluster-4: XXXX segundos
 ```
 
 ## Entrega e Avaliação
@@ -140,23 +136,25 @@ Para entrega, os arquivos `configure.yaml` e `tempos.txt` devem ser submetidos.
 A submissão deve ser realizada até o dia 31/05/2021 às 13h59min, horário de Brasilia.
 
 ## Dicas e Observações
+- **NÃO** coloque arquivos com informações sensíveis (como o `vars.sh`) em repositórios públicos.
+
 - **NÃO** submeta nenhum arquivo adicional, apenas os arquivos `configure.yaml` e `tempos.txt`.
 
-- Altere apenas os campos indicados nos arquivos, uma vez que a avaliação será realizada re-executando os passos descritos nas seções anteriores, entretanto, com o seu arquvo `configure.yaml`. Além disso, é essencial que seus arquivos não dependa de nenhum outro arquivo externo.
+- Altere apenas os campos indicados nos arquivos, uma vez que a avaliação será realizada re-executando os passos descritos nas seções anteriores, entretanto, com o seu arquvo `configure.yaml`. Além disso, é essencial que seus arquivos não dependam de nenhum outro arquivo externo.
 
 - Todas as *tasks* devem ser nomeadas.
 
-- As máquinas virtuais da sua conta na AWS são suspensas todos os dias, a meia-noite. Você pode reativá-las normalmente, através do AWS *Web Console*. Note que o IP e DNS pode mudar, o que exige a atualização das informações no arquivo de inventório.
+- As máquinas virtuais da sua conta na AWS são suspensas todos os dias, à meia-noite. Você pode reativá-las normalmente, através do AWS *Web Console*. Note que o IP e DNS pode mudar, o que exige a atualização das informações no arquivo de inventório.
 
 - Você pode ir montando e executando seu *playbook* aos poucos e testar, sempre que possível.
 
-- É mais facil iniciar com um aglomerado pequeno, ao invés dele grande
+- É mais fácil iniciar com um aglomerado pequeno, em vez de um grande.
 
 - A váriavel `ansible_play_hosts`, definida pelo próprio Ansible, contém uma lista de *hosts* que executam a *Play* em questão.
 
-- A váriavle `hostvars`, definida pelo Ansible, é um dicionário onde a chave é o nome do nó e os valores são diversas informações sobre aquele nó, como, por exemplo, o IP ou DNS, *e.g.*, `ansible_host`.
+- A variável `hostvars`, definida pelo Ansible, é um dicionário onde a chave é o nome do nó e os valores são diversas informações sobre aquele nó, como, por exemplo, o IP ou DNS, *e.g.*, `ansible_host`.
 
-- Váriaveis especiais adicionais podem ser consultadas na [documentação do Ansible](https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html).
+- Variáveis especiais adicionais podem ser consultadas na [documentação do Ansible](https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html).
 
 - Utilize o módulo [`debug`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/debug_module.html) para auxiliar a depurar seu *playbook* e observar o valor de variáveis.
 
@@ -168,20 +166,20 @@ A submissão deve ser realizada até o dia 31/05/2021 às 13h59min, horário de 
 
 - Alguns modulos do Ansible úteis para esta atividade podem ser: 
     - [Módulo `apt`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html) para instalação e atualização de pacotes.
-    - [Módulo `git`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/git_module.html) para utilizar git.
+    - [Módulo `git`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/git_module.html) para utilizar o git.
     - [Módulo `docker_image`](https://docs.ansible.com/ansible/latest/collections/community/docker/docker_image_module.html) para construção de imagens Docker.
     - [Módulo `shell`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/shell_module.html) para execução de comandos shell.
-    - [Módulo `fetch`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/fetch_module.html) para copia de arquivos da máquna remota para a máquina local.
-    - [Módulo `mount`](https://docs.ansible.com/ansible/latest/collections/ansible/posix/mount_module.html) para montar sistema de aquivos. Para EFS, algumas opções úteis são: `fstype: nfs4`, `src: "{{ efs_host }}:/"` e `opts: nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport`.
+    - [Módulo `fetch`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/fetch_module.html) para cópia de arquivos da máquna remota para a máquina local.
+    - [Módulo `mount`](https://docs.ansible.com/ansible/latest/collections/ansible/posix/mount_module.html) para montar sistemas de aquivos. Para EFS, algumas opções úteis são: `fstype: nfs4`, `src: "{{ efs_host }}:/"` e `opts: nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport`.
     - [Módulo `file`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/file_module.html) para criar e excluir arquivos e diretórios, bem como mudar permissões.
-    - [Módulo `unarchive`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/unarchive_module.html) para extraír arquivos. Nota: este módulo permite fazer o *download* do arquivo que será extraído.
+    - [Módulo `unarchive`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/unarchive_module.html) para extrair arquivos. Nota: este módulo permite fazer o *download* do arquivo que será extraído.
 
-- Lembre-se de criar o direrório onde será montado o sistema de arquivos compartilhado EFS (`efs_mount_point`) antes de monta-lo. Talvez valha alterar as permissões do diretório, após montado para aberto (0777), utilizando o módulo `file` (com `recurse: True`).
+- Lembre-se de criar o diretório onde será montado o sistema de arquivos compartilhado EFS (`efs_mount_point`) antes de montá-lo. Talvez vale a pena alterar as permissões do diretório, após montado para aberto (0777), utilizando o módulo `file` (com `recurse: True`).
 
 - Antes de instalar pacotes, lembre-se de atualizar a lista de pacotes (veja a opção `update_cache` do módulo `apt`).
 
 - A chave `become` com valor `true` (*e.g.* `become: true`) pode ser adicionada a uma *task* (ou *play*) para ela seja executada como super usuário (*e.g.* *root*). Isto é util para *tasks* que necessitam de permissões elevadas (como instalação de pacotes, por exemplo).
 
-- A chave `run_once` com valor `true` (*e.g.* `run_once: true`) pode ser adicionada a uma *task* para ela seja executada apenas um único *host* qualquer.
+- A chave `run_once` com valor `true` (*e.g.* `run_once: true`) pode ser adicionada a uma *task* para ela seja executada apenas em um único *host* qualquer.
 
 - Para longas tarefas (execução da aplicação ou construção da imagem Docker, por exemplo), o Ansible fornece as chaves [`pool`](https://docs.ansible.com/ansible/latest/user_guide/playbooks_async.html#asynchronous-playbook-tasks) e [`async`](https://docs.ansible.com/ansible/latest/user_guide/playbooks_async.html#asynchronous-playbook-tasks) para evitar desconexões SSH ao executar as tarefas. Valores como `pool: 30` e `async: 1200` podem ser razoáveis para as tarefas de execução daaplicação e criação da imagem Docker, caso necessite.
