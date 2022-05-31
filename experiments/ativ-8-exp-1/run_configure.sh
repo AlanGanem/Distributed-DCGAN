@@ -6,6 +6,7 @@
 source ./vars.sh
 
 $CONTAINER_CMD run --interactive --tty --rm \
+  --env "USERNAME=$USERNAME" \
   --env "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" \
   --env "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" \
   --env "AWS_REGION=$AWS_REGION" \

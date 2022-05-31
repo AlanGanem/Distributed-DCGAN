@@ -43,7 +43,48 @@
   #   Adicione suas tasks a partir daqui..      #
   ###############################################
 
+  - name: "Task 5: instalar dependências"
+    become: true
+    apt:
+      pkg:
+      - docker.io
+      - python3-docker
+      - nfs-common
+      update_cache: yes
+    
 
+  - name: "Task 6: criar diretorio para montar volume"
+    shell: mkdir -p "{{ efs_mount_point }}"         
+  - name: "Task 7: montar volume compartilhado"   
+    become: true
+    mount:
+      name: "{{ efs_mount_point }}"
+      src: "{{ efs_host }}:/"
+      fstype: nfs4
+      opts: nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport
+      state: mounted
+    
+  
+  - name: "Task 8: Clonar repo"
+    shell: mkdir -p "{{ user_dir }}" && cd "{{ user_dir }}" && git clone https://github.com/eborin/Distributed-DCGAN || true
+    run_once: true
+    
+  - name: "Task 9: Criar imagem docker"
+    docker_image:
+      source: build
+      build:
+        path: "{{ user_dir }}/Distributed-DCGAN"
+      name: dist_dcgan
+    async: 600
+
+   
+  - name: "Task 10: Criar diretório de saída"
+    shell: mkdir -p {{ results_dir }}
+  
+  - name: "Task 10: Rodar experimento"
+    shell: cd "{{ user_dir }}"/Distributed-DCGAN; docker run --network=host --rm -e HOMEDIR=$(pwd) -w $(pwd) -v={{ cifar_data_dir }}:{{ cifar_data_dir }} -v=$(pwd):$(pwd) dist_dcgan:latest python -m torch.distributed.launch --nproc_per_node=1 --nnodes={{ ansible_play_hosts | length }} --node_rank={{ node_rank }} --master_addr="{{ hostvars['node0']['ansible_host'] }}" --master_port=1234 dist_dcgan.py --dataset cifar10 --dataroot {{ cifar_data_dir }} --image_size 64 --batch_size 128 --out_folder {{ results_dir }} --test_data --num_epochs 2 --max_workers 1 > {{results_dir }}/output-{{ node_rank }}.txt
+    pool: 30
+    async: 1800
 
   ###############################################
   #   Fim das suas tasks..                      #
